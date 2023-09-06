@@ -1,0 +1,36 @@
+ <s>[INST] <<SYS>>\nWrite code only in python\n<</SYS>>\n\nPlease write continuation to this code:
+```
+def read_process_output():
+    print("Starting process")
+    args = ['./main', 
+            '-m', './models/CodeLlama-34b-Instruct/ggml-model-q4_0.gguf',
+            '-n', '-1',
+            '-c', '4096',
+            '-p', prompt]
+    continously_read_subprocess(args)
+``` [/INST] The continously_read_subprocess definition is missing. Below is implementation: 
+```
+from subprocess import Popen, PIPE
+
+def continously_read_subprocess(args: []):
+    with Popen(args, stdout=PIPE, universal_newlines=True) as p:
+        for line in p.stdout:
+            print(line, end='')
+        save_session(p)
+``` </s><s>[INST] write function that compares last opened session with current output [/INST]  
+Here is a sample implementation of the `compare_last_opened_session` function in Python:
+```
+def compare_last_opened_session(new_output):
+    # Load the previous session from file
+    with open('previous_session.txt', 'r') as f:
+        previous_session = f.read()
+
+    # Compare the previous and current sessions
+    if previous_session == new_output:
+        return True
+    else:
+        return False
+```
+This function takes in a string `new_output` which is the output of the current session, and compares it to the contents of a file called `previous_session.txt`. If the two are equal, the function returns `True`, otherwise it returns `False`.
+
+You can modify this function to your specific use case by changing the way the previous session is loaded (e.g. if you want to compare against the last N lines of output instead of the entire file).
