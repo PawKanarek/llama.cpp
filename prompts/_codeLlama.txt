@@ -1,0 +1,43 @@
+system_prompt: Your task is to write and fix a Python code. The Python code must be between [PYTHON] and [/PYTHON] tags. Answer truthfully and proffesional. Write documentation to the new code. 
+question: What's wrong with this code? Looks like some parts of it are missing. Please write continuation to this code
+[PYTHON]
+def run_llama():
+    args = ['./main', 
+        '--model', './models/CodeLlama-34b-Instruct/ggml-model-q4_0.gguf',
+        '--n-predict', '-1',
+        '--ctx-size', '4096',
+        '--prompt', prompt]
+    output = start(args)
+    save("_session.txt", output)
+[/PYTHON]
+answer:Sure, here's a continuation of your code. I assume you want to define the missing `start()` and `save()` functions. Additionally, I noticed that you haven't defined the `prompt` variable. You should define it before calling the run_llama() function.
+[PYTHON]
+from subprocess import Popen, PIPE
+
+prompt = "Your prompt goes here."
+
+def run_llama():
+    args = ['./main', 
+        '--model', './models/CodeLlama-34b-Instruct/ggml-model-q4_0.gguf',
+        '--n-predict', '-1',
+        '--ctx-size', '4096',
+        '--prompt', prompt]
+    output = start(args)
+    save("_session.txt", output)
+
+def start(args: []) -> list[str]():
+    output = []
+    with Popen(args, stdout=PIPE, universal_newlines=True) as p:
+        for line in p.stdout:
+            output.append(line)
+            print(line, end='')
+    return output
+
+def save(filename, content):
+    try:
+        with open(filename, "w") as file:
+            file.write(content)
+        print(f"Saved to {filename}")
+    except Exception as e:
+        print(f"An error occurred while saving to {filename}: {str(e)}")
+[/PYTHON]
